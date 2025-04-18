@@ -1,0 +1,29 @@
+{
+    "name": "messago_api",
+    "version": "1.0.0",
+    "description": "The messago API server - gathers posts and news from other API providers.",
+    "homepage": "https://github.com/messago-chat/messago_api#readme",
+    "bugs": {
+        "url": "https://github.com/messago-chat/messago_api/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/messago-chat/messago_api.git"
+    },
+    "license": "MIT",
+    "author": "nikeedev",
+    "contributors": [
+        "stiostudio"
+    ],
+    "type": "commonjs",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "bcryptjs": "^3.0.2",
+        "body-parser": "^2.2.0",
+        "express": "^5.1.0",
+        "random-token": "^0.0.8"
+    }
+}
