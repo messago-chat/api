@@ -2,11 +2,12 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const bodyParser = require("body-parser");
 const randomToken = require('random-token');
-
+const cors = require("cors");
 const app = express();
 const port = 8081;
 
 app.use(bodyParser.json());
+app.use(cors()); 
 
 const db = {
     "nikeedev": { "password_hash": "$2b$10$ATQVxqdvNvj583rhkIIgveZKPkTIU7sZdcnsq.y23IV.ik4brK/z2" }
