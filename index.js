@@ -39,13 +39,30 @@ app.post('/token', (req, res) => {
 
         tokens[username] = { "token": token };
         
-        console.log(tokens);
+        res.statusCode = 200;
         res.send(JSON.stringify({ status: "success", token: token }));
     } else {
         res.statusCode = 403;
         res.send(JSON.stringify({ status: "error", message: `Username or password is incorrect, failed to generate new token.`}));
     }
 });
+
+app.post('/check', (req, res) => {
+    const { username, token } = req.body;
+    if (tokens[username].token == undefined || tokens[username] == undefined) {
+        res.statusCode = 403;
+        res.send(JSON.stringify({ status: "error", message: `Username ${username} doesn't exist in the db. Are you registered?`}));
+    }
+    // console.log(tokens[username], token); 
+    if (tokens[username].token == token) {
+        res.statusCode = 200;
+        res.send(JSON.stringify({ status: "success", exists: true }));
+    } else {
+        res.statusCode = 403;
+        res.send(JSON.stringify({ status: "error", exists: false, message: `Token doesn't exist; generate new token.`}));
+    }
+});
+
 
 app.listen(port, () => {
     console.log(`messago api server starting at http://localhost:${port}`);
