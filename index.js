@@ -9,9 +9,8 @@ const port = 8081;
 app.use(bodyParser.json());
 app.use(cors()); 
 
-const db = {
-    "nikeedev": { "password_hash": "$2b$10$ATQVxqdvNvj583rhkIIgveZKPkTIU7sZdcnsq.y23IV.ik4brK/z2" }
-};
+const users_db = require('better-sqlite3')('users.db', options);
+const users = db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
 
 const tokens = {
 
@@ -24,12 +23,12 @@ app.get('/', (req, res) => {
 
 app.post('/token', (req, res) => {
     const { username, password } = req.body;
-    if (db[username] == undefined || db[username] == null) {
+    if (users[username] == undefined || users[username] == null) {
         res.statusCode = 403;
         res.send(JSON.stringify({ status: "error", message: `Username ${username} doesn't exist in the db. Are you registered?`}));
     }
 
-    let hash = db[username].password_hash;
+    let hash = users[username].password_hash;
     
     if (bcrypt.compareSync(password, hash)) {
         if (Object.hasOwn(username)) {
