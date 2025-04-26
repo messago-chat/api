@@ -9,6 +9,30 @@ const port = 8081;
 app.use(bodyParser.json());
 app.use(cors()); 
 
+class Post {
+    title
+    receiver
+    sender
+    post
+    img
+    url
+
+    constructor(post<) {
+        title = post.title;
+        receiver = post.user;
+        sender = username;
+        post = post.post;
+        img = post.img == undefined ? null : post.img;
+        url = post.url == undefined ? null : post.url;
+    }
+
+    insert() {
+        return `
+        insert into userinfo (author, title, receiver, url, img, post)
+        values (${sender}, ${title}, ${receiver}, ${url}, ${img}, ${post})`;
+    }
+};
+
 const db = require('better-sqlite3')('messago.db');
 db.pragma('journal_mode = WAL');
 const users = db.prepare('SELECT * FROM users;').all();
@@ -73,6 +97,27 @@ app.post('/check', (req, res) => {
     } else {
         res.statusCode = 403;
         res.send(JSON.stringify({ status: "error", exists: false, message: `Token doesn't exist; generate new token.`}));
+    }
+});
+
+app.post('/post', (req, res) => {
+    const { username, token } = req.body.auth;
+    
+     if (tokens[username].token == undefined || tokens[username] == undefined) {
+        res.statusCode = 403;
+        res.send(JSON.stringify({ status: "error", message: `Username ${username} doesn't exist in the db. Are you registered?`}));
+    }
+    // console.log(tokens[username], token); 
+    if (tokens[username].token == token) {
+        const post = req.body.post;
+        
+        let data = new Post(post);
+                
+        posts.exec(data.insert());
+
+        res.statusCode = 202;
+        res.send(JSON.stringify({ status: "success", message: `Post successfully sent to ${data.receiver}!`}));
+
     }
 });
 
