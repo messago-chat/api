@@ -1,0 +1,3 @@
+[submodule "messago_db"]
+	path = messago_db
+	url = https://github.com/messago-chat/messago_db.git

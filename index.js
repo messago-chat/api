@@ -33,7 +33,7 @@ class Post {
     }
 };
 
-const db = require('better-sqlite3')('messago.db');
+const db = require('better-sqlite3')('messago_db/messago.db');
 db.pragma('journal_mode = WAL');
 const users = db.prepare('SELECT * FROM users;').all();
 const userinfo = db.prepare('SELECT * FROM userinfo;').all();
